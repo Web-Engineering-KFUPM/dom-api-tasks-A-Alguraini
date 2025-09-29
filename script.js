@@ -102,9 +102,8 @@ loadQuote.addEventListener("click", function () {
 TODO4: Dammam Weather Now
 ---------------------------------------
 Use the OpenWeatherMap API to display live weather data.
-
 🌍 API Link:
-https://api.openweathermap.org/data/2.5/weather?q=Dammam&appid=API_KEY=metric
+https://api.openweathermap.org/data/2.5/weather?q=Dammam&appid=${API_KEY}$units=metric
 
 ⚠️ Replace YOUR_API_KEY with your actual API key from:
 https://openweathermap.org/api
@@ -115,9 +114,32 @@ https://openweathermap.org/api
     - Show temperature in the element with id="t4-temp".
     - Show humidity in the element with id="t4-hum".
     - Show wind speed in the element with id="t4-wind".
-
 💡 Hint:
 data.main.temp      → temperature (°C)
 data.main.humidity  → humidity (%)
 data.wind.speed     → wind speed (m/s)
 */
+const API_KEY = "8bd4aa1318c2a93562288551e73c415d";
+const loadWx = document.getElementById("t4-loadWx");
+const temperature = document.getElementById("t4-temp");
+const humidity = document.getElementById("t4-hum");
+const windSpeed = document.getElementById("t4-wind");
+
+loadWx.addEventListener("click", function () {
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=Khobar&appid=${API_KEY}&units=metric`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("HTTP " + response.status);
+      }
+      return response.json();
+    })
+    .then((data) => {
+        temperature.textContent = data.main.temp;
+        humidity.textContent = data.main.humidity;
+        windSpeed.textContent = data.wind.speed;
+
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+})
